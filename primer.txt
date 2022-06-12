@@ -1,0 +1,202 @@
+<?php
+// тоже что и var_dump
+$b = 3.1;
+$v = var_export($b,true);
+echo $v;
+// заполняем массив всеми элементами из директории
+$handle = opendir('.');
+while (false !== ($file = readdir($handle))) {
+    $files[] = $file;
+}
+echo print_r($files,true)."</br>";
+closedir($handle);
+// рекурсия массива, через указатель
+$fruits = array ( "fruits"  => array ( "a" => "апельсин",
+                                       "b" => "груша",
+                                       "c" => ""
+                                     ));
+$t=&$fruits;
+$fruits["fruits"]["c"]=$t;
+echo print_r($fruits,true)."</br>";
+$a    = 'Bartur'; // $a - это строка
+$a[0] = ' ';   // $a всё ещё строка
+echo $a."</br>"; 
+$foo = 'Боб';              // Присваивает $foo значение 'Боб'
+$bar = &$foo;              // Ссылка на $foo через $bar.
+$bar = "Меня зовут $bar";  // Изменение $bar...
+echo $bar."</br>";
+echo $foo."</br>";
+$a = 1; /* глобальная область видимости */
+function wer()
+{
+    echo $GLOBALS['a']."</br>"."</br>"; /* ссылка на переменную в локальной области видимости */
+}
+wer(); 
+function wty()
+{
+    static $count = 0;
+    $count++;
+    echo $count."</br>";
+    if ($count < 10) {
+        wty();
+    }
+    $count--;
+    echo $count."</br>";
+} 
+wty();
+// function fook() {
+//     static $inte = 0;          // верно
+//     static $inte = 1+2;        // верно
+//     static $inte = sqrt(121);  // неверно (поскольку это функция)
+
+//     $inte++;
+//     echo $inte;
+// }
+// fook();
+$a = array("apple", "banana");
+$b = array(01 => "banana", "0" => "apple");
+var_dump($a );
+var_dump($b);
+var_dump($a == $b); // bool(true)
+var_dump($a === $b); // bool(false)
+echo "</br>";
+function makecoffee($types = array("капучино"), $coffeeMaker = NULL)
+{
+    $device = is_null($coffeeMaker) ? "вручную" : $coffeeMaker;
+    return "Готовлю чашку ".join(", ", $types)." $device.\n";
+}
+echo makecoffee();
+echo makecoffee(array("капучино", "лавацца"), "в чайнике");
+echo "</br>";
+class DefaultCoffeeMaker {
+    function brew() {
+        echo 'Приготовление кофе.';
+    }
+}
+$rjd=new DefaultCoffeeMaker();
+$rjd->brew();
+echo "</br>";
+
+// $fnz1 =  fn(array $x) => $x;
+// $fnz1 = static fn(): int => $x;
+// $fnz1 = fn($x = 42) => $x;
+// fn(&$x) => $x;
+// fn&($x) => $x;
+// fn($x, ...$rest) => $rest;
+// var_export($fnz1([3, 4=>"da"]));
+// var_export($fnz1());
+class SimpleClass
+{
+    // объявление свойства
+    public $var = 'значение по умолчанию';
+
+    // объявление метода
+    public static function displayVar() {
+        echo "HELP";
+    }
+}
+$instance = new SimpleClass();
+//$instance = null; // $instance и $reference становятся null
+$assigned = $instance;
+$reference =& $instance;
+$instance->varr = '$assigned будет иметь это значение';
+
+var_dump($instance);
+var_dump($reference);
+var_dump($assigned);
+$instance::displayVar(); //-> function displayVar no static
+SimpleClass::displayVar();
+echo "</br>";
+
+class Animal
+{
+	public $name;
+	public $val_v;
+}
+class AnimalAll extends Animal
+{
+	function __construct($name,$val_v)
+	{
+		$this->name = $name;
+		$this->val_v = $val_v;
+	}
+}
+$chiken = new AnimalAll('Курица',2);
+var_dump($chiken);
+echo "</br>";
+$cow = new AnimalAll('Корова',3);
+var_dump($cow);
+echo "</br>";
+class Aba {
+  public function foo() { //static
+    echo 42;
+  }
+}
+$a = new Aba(); //без этой строчки, создания объекта класса
+$a->foo(); //Aba::foo();
+echo "</br>";
+echo (new DateTime())->format('Y-m-d H:i:s');
+echo "</br>";
+class Base1
+{
+    public function foo(int $a=3) {
+        echo "Допустим\n".$a;
+    }
+}
+class Extend1 extends Base1
+{
+    function foo(int $a = 5)
+    {
+        parent::foo($a);
+    }
+}
+class Extend2 extends Base1
+{
+    function foo(int $a = 1)
+    {
+        parent::foo($a); //Если удалить $a, то по умолчанию $a=3
+    }
+}
+$extended1 = new Extend1();
+$extended1->foo(); // Допустим 5
+$extended2 = new Extend2();
+$extended2->foo(2); //Допустим 2
+echo "</br>";
+class User
+{
+    public int $id;
+    public ?string $name;
+    public function __construct(int $id, ?string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
+}
+$user = new User(1234, null);
+var_dump($user->id);
+var_dump($user->name);
+echo "</br>";
+class MyClassw
+{
+    const CONSTANT = 'значение константы';
+    function showConstant() {
+        echo  self::CONSTANT . "\n";
+    }
+}
+echo MyClassw::CONSTANT . "\n";
+$classnamew = "MyClassw";
+echo $classnamew::CONSTANT . "\n";
+$classw = new MyClassw();
+$classw->showConstant();
+echo $classw::CONSTANT."\n";
+echo "</br>";
+const ONE = 1;
+
+class fooe {
+     const TWO = ONE * 2;
+     const THREE = ONE + self::TWO;
+     const SENTENCE = 'Значение константы THREE - ' . self::THREE;
+}
+$fug = fooe();
+echo $fug;
+?>
